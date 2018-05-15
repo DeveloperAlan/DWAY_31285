@@ -24,6 +24,9 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
@@ -41,10 +44,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private ViewPager mViewPager;
 
+    private FirebaseAuth mAuth;
+    private MapFragment mMapFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Get Firebase authentication instance
+        mAuth = FirebaseAuth.getInstance();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,6 +88,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
     }
 
 
@@ -154,8 +170,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            if (position == 0) {
+//                return ExploreFragment.newInstance();
+            }
             if (position == 1) {
-                return MapFragment.newInstance(position + 1);
+                return mMapFragment.newInstance();
             } else {
                 return PlaceholderFragment.newInstance(position + 1);
             }

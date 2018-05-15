@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "906080860138",
+    "firebase_url": "https://dway-1523602616529.firebaseio.com",
+    "project_id": "dway-1523602616529",
+    "storage_bucket": "dway-1523602616529.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906080860138:android:c786bbe85af98c9c",
+        "android_client_info": {
+          "package_name": "com.mad.dway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906080860138-4lf7j5qn7bjbu9bk4jkecot6odhq6410.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mad.dway",
+            "certificate_hash": "c1782fb1104fd3c4bddc44d9b4378d7b59a781c7"
+          }
+        },
+        {
+          "client_id": "906080860138-3ro6r373snpbmeb8mffh4fp51k4m8hgm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC22YVbz1ZCnuCGt9fZ89FABK9XqobpBIE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906080860138-3ro6r373snpbmeb8mffh4fp51k4m8hgm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
