@@ -33,8 +33,8 @@ public class ExploreFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
 
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
+//        FragmentManager manager = getFragmentManager();
+//        FragmentTransaction transaction = manager.beginTransaction();
 
         return view;
 
