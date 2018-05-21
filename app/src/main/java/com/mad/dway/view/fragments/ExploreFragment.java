@@ -1,12 +1,13 @@
-package com.mad.dway;
+package com.mad.dway.view.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.mad.dway.R;
+import com.mad.dway.presenter.ExplorePresenter;
 
 /**
  * Created by ang on 14/5/18.
@@ -14,8 +15,7 @@ import android.view.ViewGroup;
 
 public class ExploreFragment extends Fragment {
 
-    private Places mPlaces;
-
+    private ExplorePresenter mExplorePresenter;
 
     public ExploreFragment() {
 
@@ -29,12 +29,15 @@ public class ExploreFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mExplorePresenter = new ExplorePresenter(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
-
-//        FragmentManager manager = getFragmentManager();
-//        FragmentTransaction transaction = manager.beginTransaction();
 
         return view;
 

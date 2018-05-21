@@ -1,4 +1,4 @@
-package com.mad.dway;
+package com.mad.dway.view.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,13 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mad.dway.R;
+import com.mad.dway.presenter.AccountsPresenter;
+
 /**
  * Created by ang on 14/5/18.
  */
 
-public class LoginFragment extends Fragment {
+public class AccountsFragment extends Fragment {
 
-    public LoginFragment() {
+    private AccountsPresenter mAccountsPresenter;
+
+    public AccountsFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAccountsPresenter = new AccountsPresenter(this);
     }
 
     @Override
@@ -26,9 +37,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-//        TextView textView = getView().findViewById(R.id.email_text_view);
-//        textView.setText("alanng95@hotmail.com");
 
     }
 }
