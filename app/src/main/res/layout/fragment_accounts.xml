@@ -51,13 +51,9 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
             <Button
+                android:id="@+id/accounts_sign_up_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Log in"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sign Up"/>
+                android:text="Sign Up/Log In"/>
     </LinearLayout>
 </LinearLayout>
