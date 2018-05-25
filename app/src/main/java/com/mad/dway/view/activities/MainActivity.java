@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,10 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.mad.dway.model.User;
+import com.mad.dway.model.UserRepository;
 import com.mad.dway.presenter.MainPresenter;
 import com.mad.dway.view.fragments.MapFragment;
 import com.mad.dway.R;
@@ -95,8 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        mMainPresenter.checkUserInstance();
     }
 
 
