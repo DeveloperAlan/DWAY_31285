@@ -70,7 +70,7 @@ public class MapPresenter implements OnMapReadyCallback{
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(latLng);
-                    markerOptions.title("Current Position");
+                    markerOptions.title("That's you!");
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
                     mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
