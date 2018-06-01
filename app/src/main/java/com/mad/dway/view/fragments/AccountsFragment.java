@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mad.dway.R;
 import com.mad.dway.model.User;
+import com.mad.dway.model.UserRepository;
 import com.mad.dway.presenter.AccountsPresenter;
 
 /**
@@ -29,9 +31,12 @@ public class AccountsFragment extends Fragment {
     private AccountsPresenter mAccountsPresenter;
     private Button mSignUpButton;
     private Button mLogOutButton;
+    private TextView mNameTextView;
+    private TextView mEmailTextView;
     private LinearLayout mLoggedInLayout;
     private LinearLayout mNotLoggedInLayout;
     private View mView;
+    private UserRepository mCurrentUser;
 
     public AccountsFragment() {
     }
@@ -40,6 +45,7 @@ public class AccountsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAccountsPresenter = new AccountsPresenter(this);
+        mCurrentUser = UserRepository.getInstance();
     }
 
     @Override
@@ -48,6 +54,9 @@ public class AccountsFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_accounts, container, false);
         mLoggedInLayout = mView.findViewById(R.id.logged_in);
         mNotLoggedInLayout= mView.findViewById(R.id.not_logged_in);
+        mNameTextView = mView.findViewById(R.id.name_text_view);
+        mEmailTextView = mView.findViewById(R.id.email_text_view);
+
         getSignUpButton();
         getLogOutButton();
         return mView;
@@ -68,13 +77,9 @@ public class AccountsFragment extends Fragment {
 
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 setLoggedInLayoutVisible();
-                String uid = user.getUid();
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference usersRef = database.getReference("users");
-                User currentUser = new User("Alan", user.getEmail());
-                usersRef.child(uid).setValue(currentUser);
+                mCurrentUser.onSignIn();
+                setUserNameEmailText();
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
@@ -112,5 +117,15 @@ public class AccountsFragment extends Fragment {
     public void setNotLoggedInLayoutVisible() {
         mLoggedInLayout.setVisibility(View.GONE);
         mNotLoggedInLayout.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Set the Users Email and Name in the Accounts View
+     *
+     * @returns     null
+     */
+    private void setUserNameEmailText() {
+        mEmailTextView.setText(mCurrentUser.getEmail());
+        mNameTextView.setText(mCurrentUser.getName());
     }
 }
