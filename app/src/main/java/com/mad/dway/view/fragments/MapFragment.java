@@ -1,6 +1,8 @@
 package com.mad.dway.view.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -44,6 +46,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.mMapPresenter = new MapPresenter(this);
+        this.mMapPresenter.onMapsFragmentCreate();
     }
 
     @Override
@@ -59,6 +62,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         fragment.getMapAsync(this);
 
+
         return view;
     }
 
@@ -71,5 +75,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         mMapPresenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }
