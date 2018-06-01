@@ -28,13 +28,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mad.dway.model.DirectionsEndPoint;
+import com.mad.dway.model.PlacesEndPoint;
 import com.mad.dway.model.User;
 import com.mad.dway.model.UserRepository;
 import com.mad.dway.presenter.MainPresenter;
+import com.mad.dway.view.fragments.JourneyFragment;
 import com.mad.dway.view.fragments.MapFragment;
 import com.mad.dway.R;
+import com.mad.dway.view.fragments.SearchResultsFragment;
+import com.mad.dway.view.fragments.dummy.DummyContent;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SearchResultsFragment.OnListFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -54,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth mAuth;
     private MapFragment mMapFragment;
     private MainPresenter mMainPresenter;
+    private JourneyFragment mJourneyFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,15 +85,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -124,6 +121,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
     }
 
     /**
@@ -181,6 +183,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             if (position == 1) {
                 return mMapFragment.newInstance();
+            } else if (position == 2) {
+                return mJourneyFragment.newInstance();
             } else {
                 return PlaceholderFragment.newInstance(position + 1);
             }
