@@ -22,21 +22,43 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.mad.dway.model.Friend;
+import com.mad.dway.model.Friends;
+import com.mad.dway.model.FriendsRepository;
+import com.mad.dway.model.UserRepository;
 import com.mad.dway.view.fragments.MapFragment;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Random;
 
 /**
+ * Presenter for the Maps Fragment
+ *
  * Created by ang on 21/5/18.
  */
 
-public class MapPresenter implements OnMapReadyCallback{
+public class MapPresenter implements OnMapReadyCallback, Observer {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private static final int REQUEST_PERMISSIONS_LOCATION_SETTINGS_REQUEST_CODE = 33;
-    private static final int REQUEST_PERMISSIONS_LAST_LOCATION_REQUEST_CODE = 34;
-    private static final int REQUEST_PERMISSIONS_CURRENT_LOCATION_REQUEST_CODE = 35;
-    protected static long MIN_UPDATE_INTERVAL = 30 * 1000;
+    private static final float[] MARKER_COLOURS = {
+            BitmapDescriptorFactory.HUE_AZURE,
+            BitmapDescriptorFactory.HUE_BLUE,
+            BitmapDescriptorFactory.HUE_CYAN,
+            BitmapDescriptorFactory.HUE_GREEN,
+            BitmapDescriptorFactory.HUE_MAGENTA,
+            BitmapDescriptorFactory.HUE_ORANGE,
+            BitmapDescriptorFactory.HUE_ROSE,
+            BitmapDescriptorFactory.HUE_VIOLET,
+            BitmapDescriptorFactory.HUE_YELLOW,
+    };
 
     private MapFragment mMapView;
     private LocationRequest mLocationRequest;
@@ -45,9 +67,19 @@ public class MapPresenter implements OnMapReadyCallback{
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
     private GoogleMap mGoogleMap;
+    private UserRepository mCurrentUser;
+    private FriendsRepository mCurrentFriends;
+    private DatabaseReference mUsersRef;
+    private boolean mHasCameraMoved = false;
 
     public MapPresenter(MapFragment view) {
         mMapView = view;
+    }
+
+    public void onMapsFragmentCreate() {
+        mCurrentUser = UserRepository.getInstance();
+        mCurrentFriends = FriendsRepository.getInstance();
+        mUsersRef = FirebaseDatabase.getInstance().getReference("users");
     }
 
     public void onMapReady(GoogleMap googleMap) {
@@ -56,6 +88,9 @@ public class MapPresenter implements OnMapReadyCallback{
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
+                if (mCurrentUser.isSignedIn()) {
+                    setAllFriendsLocationsOnMap();
+                }
                 List<Location> locationList = locationResult.getLocations();
                 if (locationList.size() > 0) {
                     //The last location in the list is the newest
@@ -69,19 +104,29 @@ public class MapPresenter implements OnMapReadyCallback{
                     //Place current location marker
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     MarkerOptions markerOptions = new MarkerOptions();
+
+                    Log.d("is user null", String.valueOf(mCurrentUser.isSignedIn()));
+                    if (mCurrentUser.isSignedIn()) {
+                        mCurrentUser.setLatLng(latLng);
+                    }
                     markerOptions.position(latLng);
+
+
                     markerOptions.title("That's you!");
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                     mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
                     //move map camera
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 1));
+                    if (!mHasCameraMoved) {
+                        mHasCameraMoved = true;
+                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                    }
                 }
             }
         };
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(12000); // two minute interval
-        mLocationRequest.setFastestInterval(120000);
+        mLocationRequest.setInterval(1000); // two minute interval
+        mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -100,6 +145,47 @@ public class MapPresenter implements OnMapReadyCallback{
             mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
             mGoogleMap.setMyLocationEnabled(true);
         }
+    }
+
+    private void setAllFriendsLocationsOnMap() {
+        mUsersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    String name = childSnapshot.child("name").getValue().toString();
+                    if (mCurrentUser.isCurrentUser(name)) continue;
+                    String uId = childSnapshot.getKey();
+
+                    LatLng latLng = new LatLng(
+                            (Double) childSnapshot.child("latLng").child("latitude").getValue(),
+                            (Double) childSnapshot.child("latLng").child("longitude").getValue()
+                    );
+                    Log.d("latlng", latLng.toString());
+                    Friend friend = new Friend(uId, name, latLng);
+                    mCurrentFriends.updateFriendInFriendsList(friend);
+                    updateFriendLocationOnMap(friend);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void updateFriendLocationOnMap(Friend friend) {
+        if (friend.getLatLng() == null ) return;
+        Log.d("frineds gps", friend.getLatLng().toString());
+        MarkerOptions markerOptions = new MarkerOptions();
+
+        markerOptions.position(friend.getLatLng());
+
+        markerOptions.title("That's " + friend.getName());
+        int rnd = new Random().nextInt(MARKER_COLOURS.length);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(MARKER_COLOURS[rnd]));
+        mGoogleMap.addMarker(markerOptions);
     }
 
     private void checkLocationPermission() {
@@ -168,5 +254,10 @@ public class MapPresenter implements OnMapReadyCallback{
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
