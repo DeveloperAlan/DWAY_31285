@@ -3,6 +3,7 @@ package com.mad.dway.presenter;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.mad.dway.model.FriendsRepository;
 import com.mad.dway.model.UserRepository;
 import com.mad.dway.view.activities.MainActivity;
 
@@ -14,9 +15,11 @@ public class MainPresenter {
 
     private MainActivity mMainView;
     private UserRepository mUserRepository;
+    private FriendsRepository mCurrentFriends;
 
     public MainPresenter(MainActivity view) {
         mUserRepository = UserRepository.getInstance();
+        mCurrentFriends = FriendsRepository.getInstance();
         mMainView = view;
     }
 
