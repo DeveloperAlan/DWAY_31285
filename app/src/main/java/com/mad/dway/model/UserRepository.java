@@ -1,5 +1,8 @@
 package com.mad.dway.model;
 
+import android.util.Log;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +32,12 @@ public class UserRepository {
     public static UserRepository getInstance() {
         if (sInstance == null) {
             sInstance = new UserRepository();
-            mFirebaseUser = mFirebaseAuth.getInstance().getCurrentUser();
+
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            mUsersRef = mFirebaseDatabase.getReference("users");
+            mFirebaseAuth = FirebaseAuth.getInstance();
+            mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
             if (mFirebaseUser == null ) {
                 mSignedIn = false;
             } else {
@@ -38,6 +46,21 @@ public class UserRepository {
             }
         }
         return sInstance;
+    }
+
+    public boolean isCurrentUser(String name) {
+        if (name == getName()) {
+            return true;
+        }
+        return false;
+    }
+
+    public String getName() {
+        return mLocalUser.getName();
+    }
+
+    public String getEmail() {
+        return mLocalUser.getEmail();
     }
 
     public static void destroyInstance() {
@@ -61,9 +84,26 @@ public class UserRepository {
     }
 
     public static void onSignIn() {
+        mSignedIn = true;
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mUId = mFirebaseUser.getUid();
+        setUpLocalUser();
+    }
 
+    public static LatLng getLatLng() {
+        return mLocalUser.getLatLng();
+    }
+
+    public static void setLatLng(LatLng latLng) {
+        mLocalUser.setLatLng(latLng);
+        if (mUId != null) {
+            saveUserIntoFirebase();
+        }
+    }
+
+    private static void saveUserIntoFirebase() {
+        Log.d("uid", mUId);
+        mUsersRef.child(mUId).setValue(mLocalUser);
     }
 
 }
