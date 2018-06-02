@@ -30,6 +30,7 @@ public class JourneyPresenter {
     private PlacesEndPoint mPlacesApiEndPoint;
     private SearchedPlaces mSearchedPlaces;
     private Fragment mSearchResult;
+    private Fragment mLobbyFragment;
     private EditText mSearchEditText;
     private View mView;
     private Button mSearchButton;
@@ -59,6 +60,12 @@ public class JourneyPresenter {
         }
     }
 
+    public void addLobbyFragment() {
+        FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
+
+        mLobbyFragment = new LobbyFragment();
+    }
+
     public void removeResultsDropdown() {
         if (!checkIfResultsExist()) return;
         Fragment fragment = mFragmentManager.findFragmentById(R.id.linear_layout_search_result);
@@ -72,7 +79,7 @@ public class JourneyPresenter {
         if (fragment == null) {
             return false;
         }
-        return true;i
+        return true;
     }
 
     public void searchForResults() {

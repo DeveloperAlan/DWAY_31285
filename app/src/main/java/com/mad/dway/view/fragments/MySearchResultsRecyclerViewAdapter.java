@@ -1,6 +1,8 @@
 package com.mad.dway.view.fragments;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,7 @@ public class MySearchResultsRecyclerViewAdapter extends RecyclerView.Adapter<MyS
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mPlace);
+                    Log.d("clicked", "it is clicked");
                 }
             }
         });

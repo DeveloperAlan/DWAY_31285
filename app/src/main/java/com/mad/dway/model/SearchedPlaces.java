@@ -35,6 +35,7 @@ public class SearchedPlaces {
         PlacesSearchResult[] results = mPlacesEndPoint.searchPlace(searchQuery);
         Log.d("something", String.valueOf(results));
         if (results != null) {
+            mSearchedPlaces = new ArrayList<>();
             for (int i = 0; i < results.length; i++) {
                 PlacesSearchResult result = results[i];
                 Log.i("search result length", String.valueOf(result.geometry));
