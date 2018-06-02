@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mad.dway.R;
+import com.mad.dway.model.Place;
 import com.mad.dway.view.fragments.SearchResultsFragment.OnListFragmentInteractionListener;
 import com.mad.dway.view.fragments.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,11 +21,11 @@ import java.util.List;
  */
 public class MySearchResultsRecyclerViewAdapter extends RecyclerView.Adapter<MySearchResultsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final ArrayList<Place> mPlaces;
     private final OnListFragmentInteractionListener mListener;
 
-    public MySearchResultsRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public MySearchResultsRecyclerViewAdapter(ArrayList<Place> places, OnListFragmentInteractionListener listener) {
+        mPlaces = places;
         mListener = listener;
     }
 
@@ -36,8 +38,8 @@ public class MySearchResultsRecyclerViewAdapter extends RecyclerView.Adapter<MyS
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mPlace = mPlaces.get(position);
+        holder.mContentView.setText(mPlaces.get(position).getName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +47,7 @@ public class MySearchResultsRecyclerViewAdapter extends RecyclerView.Adapter<MyS
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(holder.mPlace);
                 }
             }
         });
@@ -53,13 +55,13 @@ public class MySearchResultsRecyclerViewAdapter extends RecyclerView.Adapter<MyS
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mPlaces.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public Place mPlace;
 
         public ViewHolder(View view) {
             super(view);

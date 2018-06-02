@@ -10,26 +10,29 @@ import com.google.maps.model.Photo;
 
 public class Place {
     private String mName;
-    private LatLng mLatLng;
+    private double mLatitude;
+    private double mLongitude;
     private String mFormattedAddress;
     private OpeningHours mOpeningHours;
     private float mRating;
-    private Photo mPhoto;
+    private Photo[] mPhoto;
 
     public Place() {
 
     }
 
-    public Place(String name, LatLng latLng, String formattedAddress, Photo photo) {
+    public Place(String name, double latitude, double longitude, String formattedAddress, Photo[] photo) {
         mName = name;
-        mLatLng = latLng;
+        mLatitude = latitude;
+        mLongitude = longitude;
         mFormattedAddress = formattedAddress;
         mPhoto = photo;
     }
 
-    public Place(String name, LatLng latLng, String formattedAddress, OpeningHours openingHours, float rating, Photo photo) {
+    public Place(String name, double latitude, double longitude, String formattedAddress, OpeningHours openingHours, float rating, Photo[] photo) {
         mName = name;
-        mLatLng = latLng;
+        mLatitude = latitude;
+        mLongitude = longitude;
         mFormattedAddress = formattedAddress;
         mOpeningHours = openingHours;
         mRating = rating;
@@ -44,12 +47,20 @@ public class Place {
         mName = name;
     }
 
-    public LatLng getLatLng() {
-        return mLatLng;
+    public double getLatitude() {
+        return mLatitude;
     }
 
-    public void setLatLng(LatLng latLng) {
-        mLatLng = latLng;
+    public void setLatitude(double latitude) {
+        mLatitude = latitude;
+    }
+
+    public double getLongitude() {
+        return mLongitude;
+    }
+
+    public void setLongitude(double longitude) {
+        mLongitude = longitude;
     }
 
     public String getFormattedAddress() {
@@ -76,11 +87,11 @@ public class Place {
         mRating = rating;
     }
 
-    public Photo getPhoto() {
+    public Photo[] getPhoto() {
         return mPhoto;
     }
 
-    public void setPhoto(Photo photo) {
+    public void setPhoto(Photo[] photo) {
         mPhoto = photo;
     }
 }

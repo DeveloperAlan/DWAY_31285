@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mad.dway.model.DirectionsEndPoint;
+import com.mad.dway.model.Place;
 import com.mad.dway.model.PlacesEndPoint;
 import com.mad.dway.model.User;
 import com.mad.dway.model.UserRepository;
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(Place place) {
 
     }
 

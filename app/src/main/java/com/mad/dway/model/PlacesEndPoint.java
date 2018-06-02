@@ -7,6 +7,7 @@ import com.google.maps.PendingResult;
 import com.google.maps.PlacesApi;
 import com.google.maps.TextSearchRequest;
 import com.google.maps.model.PlacesSearchResponse;
+import com.google.maps.model.PlacesSearchResult;
 
 import org.w3c.dom.Text;
 
@@ -16,8 +17,9 @@ import org.w3c.dom.Text;
 
 public class PlacesEndPoint {
     private static String PLACES_API_KEY = "AIzaSyBNw8N_JdijSoRQQqUR-6HPkV5Z37YkWPQ";
-    private static PlacesEndPoint mPlacesEndPoint = null;
+    private static PlacesEndPoint mPlacesEndPoint;
     private static GeoApiContext mContext;
+    private static PlacesSearchResult[] mSearchedResult;
 
     private PlacesEndPoint() {
 
@@ -31,26 +33,47 @@ public class PlacesEndPoint {
         return mPlacesEndPoint;
     }
 
-    public static void searchPlace(String searchQuery) {
+    public static PlacesSearchResult[] searchPlace(String searchQuery) {
         TextSearchRequest request = PlacesApi.textSearchQuery(mContext, searchQuery);
-        request.setCallback(new PendingResult.Callback<PlacesSearchResponse>() {
-            @Override
-            public void onResult(PlacesSearchResponse result) {
-                Log.i("search response", String.valueOf(result.results));
-                Log.i( "search result length", String.valueOf(result.results.length));
+        Log.d("search place working", "working?");
+//        request.setCallback(new PendingResult.Callback<PlacesSearchResponse>() {
+//            @Override
+//            public void onResult(PlacesSearchResponse result) {
+//                mSearchedResult = result.results;
+//                Log.d("search response", String.valueOf(result.results));
+//                Log.d( "search result length", String.valueOf(result.results.length));
+//
+//                Log.i( "search result length", String.valueOf(result.results[0].geometry));
+//                Log.i( "search result length", String.valueOf(result.results[0].geometry.location));
+//                Log.i( "search result length", String.valueOf(result.results[0].geometry.location.lat));
+//                Log.i( "search result length", String.valueOf(result.results[0].geometry.location.lng));
+//                Log.i( "search result length", String.valueOf(result.results[0].name));
+//                Log.i( "search result length", String.valueOf(result.results[0].formattedAddress));
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable e) {
+//                mSearchedResult = null;
+//            }
+//        });
 
-                Log.i( "search result length", String.valueOf(result.results[0].geometry));
-                Log.i( "search result length", String.valueOf(result.results[0].geometry.location));
-                Log.i( "search result length", String.valueOf(result.results[0].geometry.location.lat));
-                Log.i( "search result length", String.valueOf(result.results[0].geometry.location.lng));
-                Log.i( "search result length", String.valueOf(result.results[0].name));
-                Log.i( "search result length", String.valueOf(result.results[0].formattedAddress));
-            }
+        // Synchronous
+        try {
+            PlacesSearchResponse result = request.await();
+            mSearchedResult = result.results;
+            Log.d("search response", String.valueOf(result.results));
+            Log.d( "search result length", String.valueOf(result.results.length));
 
-            @Override
-            public void onFailure(Throwable e) {
-
-            }
-        });
+            Log.i( "search result length", String.valueOf(result.results[0].geometry));
+            Log.i( "search result length", String.valueOf(result.results[0].geometry.location));
+            Log.i( "search result length", String.valueOf(result.results[0].geometry.location.lat));
+            Log.i( "search result length", String.valueOf(result.results[0].geometry.location.lng));
+            Log.i( "search result length", String.valueOf(result.results[0].name));
+            Log.i( "search result length", String.valueOf(result.results[0].formattedAddress));
+            // Handle successful request.
+        } catch (Exception e) {
+            // Handle error
+        }
+        return mSearchedResult;
     }
 }

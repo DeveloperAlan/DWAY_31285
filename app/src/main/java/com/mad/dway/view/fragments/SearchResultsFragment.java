@@ -6,13 +6,19 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mad.dway.R;
+import com.mad.dway.model.Place;
+import com.mad.dway.model.PlacesEndPoint;
+import com.mad.dway.model.SearchedPlaces;
 import com.mad.dway.view.fragments.dummy.DummyContent;
 import com.mad.dway.view.fragments.dummy.DummyContent.DummyItem;
+
+import java.util.ArrayList;
 
 
 /**
@@ -25,6 +31,8 @@ public class SearchResultsFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static SearchedPlaces mSearchedPlaces;
+    private static ArrayList<Place> mSearchedPlacesList;
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
@@ -49,6 +57,7 @@ public class SearchResultsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSearchedPlaces = SearchedPlaces.getInstance();
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -58,6 +67,7 @@ public class SearchResultsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mSearchedPlacesList = mSearchedPlaces.getPlaces();
         View view = inflater.inflate(R.layout.fragment_search_results_list, container, false);
 
         // Set the adapter
@@ -69,7 +79,7 @@ public class SearchResultsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MySearchResultsRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MySearchResultsRecyclerViewAdapter(mSearchedPlacesList, mListener));
         }
         return view;
     }
@@ -104,6 +114,6 @@ public class SearchResultsFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Place place);
     }
 }

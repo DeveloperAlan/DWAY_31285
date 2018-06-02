@@ -15,6 +15,7 @@ import android.widget.EditText;
 import com.mad.dway.BuildConfig;
 import com.mad.dway.R;
 import com.mad.dway.model.DirectionsEndPoint;
+import com.mad.dway.model.Place;
 import com.mad.dway.model.PlacesEndPoint;
 import com.mad.dway.presenter.JourneyPresenter;
 import com.mad.dway.view.fragments.dummy.DummyContent;
@@ -63,7 +64,7 @@ public class JourneyFragment extends Fragment implements SearchResultsFragment.O
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        Log.d("clicked", "clicked");
+    public void onListFragmentInteraction(Place place) {
+
     }
 }
