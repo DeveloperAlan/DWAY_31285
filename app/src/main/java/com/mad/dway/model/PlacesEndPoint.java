@@ -36,26 +36,6 @@ public class PlacesEndPoint {
     public static PlacesSearchResult[] searchPlace(String searchQuery) {
         TextSearchRequest request = PlacesApi.textSearchQuery(mContext, searchQuery);
         Log.d("search place working", "working?");
-//        request.setCallback(new PendingResult.Callback<PlacesSearchResponse>() {
-//            @Override
-//            public void onResult(PlacesSearchResponse result) {
-//                mSearchedResult = result.results;
-//                Log.d("search response", String.valueOf(result.results));
-//                Log.d( "search result length", String.valueOf(result.results.length));
-//
-//                Log.i( "search result length", String.valueOf(result.results[0].geometry));
-//                Log.i( "search result length", String.valueOf(result.results[0].geometry.location));
-//                Log.i( "search result length", String.valueOf(result.results[0].geometry.location.lat));
-//                Log.i( "search result length", String.valueOf(result.results[0].geometry.location.lng));
-//                Log.i( "search result length", String.valueOf(result.results[0].name));
-//                Log.i( "search result length", String.valueOf(result.results[0].formattedAddress));
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable e) {
-//                mSearchedResult = null;
-//            }
-//        });
 
         // Synchronous
         try {

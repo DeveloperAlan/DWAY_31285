@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mad.dway.R;
 import com.mad.dway.view.fragments.JourneyDirectionsFragment.OnListFragmentInteractionListener;
 import com.mad.dway.view.fragments.dummy.DummyContent.DummyItem;
 

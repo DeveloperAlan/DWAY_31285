@@ -12,12 +12,13 @@ import com.mad.dway.R;
 import com.mad.dway.model.DirectionsEndPoint;
 import com.mad.dway.model.Place;
 import com.mad.dway.presenter.JourneySearchPresenter;
+import com.mad.dway.view.fragments.dummy.DummyContent;
 
 /**
  * Created by ang on 28/5/18.
  */
 
-public class JourneyFragment extends Fragment implements SearchResultsFragment.OnListFragmentInteractionListener {
+public class JourneyFragment extends Fragment implements JourneyDirectionsFragment.OnListFragmentInteractionListener {
     private ProgressDialog mProgressDialog;
     private DirectionsEndPoint mDirectionsEndPoint;
 
@@ -60,7 +61,7 @@ public class JourneyFragment extends Fragment implements SearchResultsFragment.O
     }
 
     @Override
-    public void onListFragmentInteraction(Place place) {
-        Log.d("something", "something");
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
     }
 }

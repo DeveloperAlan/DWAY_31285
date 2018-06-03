@@ -37,14 +37,19 @@ import com.mad.dway.model.PlacesEndPoint;
 import com.mad.dway.model.User;
 import com.mad.dway.model.UserRepository;
 import com.mad.dway.presenter.MainPresenter;
+import com.mad.dway.view.fragments.JourneyDirectionsFragment;
 import com.mad.dway.view.fragments.JourneyFragment;
+import com.mad.dway.view.fragments.JourneySearchFragment;
 import com.mad.dway.view.fragments.LobbyFragment;
 import com.mad.dway.view.fragments.MapFragment;
 import com.mad.dway.R;
 import com.mad.dway.view.fragments.SearchResultsFragment;
 import com.mad.dway.view.fragments.dummy.DummyContent;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SearchResultsFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
+        SearchResultsFragment.OnListFragmentInteractionListener,
+        JourneyDirectionsFragment.OnListFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -105,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onStart() {
         super.onStart();
         mMainPresenter.checkUserInstance();
+        DirectionsEndPoint.getInstance().doExample();
     }
 
 
@@ -132,11 +138,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onListFragmentInteraction(Place place) {
-        Fragment lobbyFragment = new LobbyFragment();
+        double latitude = place.getLatitude();
+        double longitude = place.getLongitude();
         FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
         fragTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        fragTransaction.replace(R.id.fragment_journey_root, new LobbyFragment(), "fragment_journey_lobby");
+        fragTransaction.replace(R.id.fragment_journey_root, JourneyDirectionsFragment.newInstance(latitude, longitude), "fragment_journey_lobby");
         fragTransaction.commit();
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
     }
 
     /**

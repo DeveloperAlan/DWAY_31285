@@ -2,7 +2,7 @@ package com.mad.dway.view.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mad.dway.R;
+import com.mad.dway.model.DirectionsEndPoint;
 import com.mad.dway.view.fragments.dummy.DummyContent;
 import com.mad.dway.view.fragments.dummy.DummyContent.DummyItem;
 
@@ -29,6 +30,8 @@ public class JourneyDirectionsFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private static double mLatitude;
+    private static double mLongitude;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -39,10 +42,12 @@ public class JourneyDirectionsFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static JourneyDirectionsFragment newInstance(int columnCount) {
+    public static JourneyDirectionsFragment newInstance(double latitude, double longitude) {
+        mLatitude = latitude;
+        mLongitude = longitude;
+
         JourneyDirectionsFragment fragment = new JourneyDirectionsFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +59,8 @@ public class JourneyDirectionsFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+//        DirectionsEndPoint.
     }
 
     @Override
