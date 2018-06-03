@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mad.dway.model.CurrentLocation;
 import com.mad.dway.model.Friend;
 import com.mad.dway.model.Friends;
 import com.mad.dway.model.FriendsRepository;
@@ -61,6 +62,7 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
     };
 
     private MapFragment mMapView;
+    private CurrentLocation mCurrentLocation;
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
@@ -79,6 +81,7 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
     public void onMapsFragmentCreate() {
         mCurrentUser = UserRepository.getInstance();
         mCurrentFriends = FriendsRepository.getInstance();
+        mCurrentLocation = CurrentLocation.getInstance();
         mUsersRef = FirebaseDatabase.getInstance().getReference("users");
     }
 
@@ -95,8 +98,12 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
                 if (locationList.size() > 0) {
                     //The last location in the list is the newest
                     Location location = locationList.get(locationList.size() - 1);
-                    Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                    Log.i("MapsActivity", "CurrentLocation: " + location.getLatitude() + " " + location.getLongitude());
                     mLastLocation = location;
+                    mCurrentLocation.setLatitude(location.getLatitude());
+                    mCurrentLocation.setLongitude(location.getLongitude());
+
+
                     if (mCurrLocationMarker != null) {
                         mCurrLocationMarker.remove();
                     }
@@ -133,11 +140,11 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
             if (ContextCompat.checkSelfPermission(mMapView.getContext(),
                     android.Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
-                //Location Permission already granted)
+                //CurrentLocation Permission already granted)
                 mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                 mGoogleMap.setMyLocationEnabled(true);
             } else {
-                //Request Location Permission
+                //Request CurrentLocation Permission
                 checkLocationPermission();
             }
         }
@@ -200,8 +207,8 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(mMapView.getContext())
-                        .setTitle("Location Permission Needed")
-                        .setMessage("This app needs the Location permission, please accept to use location functionality")
+                        .setTitle("CurrentLocation Permission Needed")
+                        .setMessage("This app needs the CurrentLocation permission, please accept to use location functionality")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

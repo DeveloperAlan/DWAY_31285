@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mad.dway.model.CurrentLocation;
 import com.mad.dway.model.DirectionsEndPoint;
 import com.mad.dway.model.Place;
 import com.mad.dway.model.PlacesEndPoint;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements
     private MapFragment mMapFragment;
     private MainPresenter mMainPresenter;
     private JourneyFragment mJourneyFragment;
+    private CurrentLocation mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements
         mSectionsPagerAdapter.setPrimaryItem(mViewPager, 1, mMapFragment);
 
         mMainPresenter = new MainPresenter(this);
+        mCurrentLocation = CurrentLocation.getInstance();
 
     }
 
@@ -110,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onStart() {
         super.onStart();
         mMainPresenter.checkUserInstance();
-        DirectionsEndPoint.getInstance().doExample();
     }
 
 
@@ -142,7 +144,10 @@ public class MainActivity extends AppCompatActivity implements
         double longitude = place.getLongitude();
         FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
         fragTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        fragTransaction.replace(R.id.fragment_journey_root, JourneyDirectionsFragment.newInstance(latitude, longitude), "fragment_journey_lobby");
+        fragTransaction.replace(
+                R.id.fragment_journey_root,
+                JourneyDirectionsFragment.newInstance(place, mCurrentLocation.getLocation()),
+                "fragment_journey_lobby");
         fragTransaction.commit();
     }
 

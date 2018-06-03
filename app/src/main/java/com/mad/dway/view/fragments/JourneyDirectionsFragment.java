@@ -1,6 +1,7 @@
 package com.mad.dway.view.fragments;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mad.dway.R;
+import com.mad.dway.model.CurrentLocation;
 import com.mad.dway.model.DirectionsEndPoint;
+import com.mad.dway.model.Place;
 import com.mad.dway.view.fragments.dummy.DummyContent;
 import com.mad.dway.view.fragments.dummy.DummyContent.DummyItem;
 
@@ -30,8 +33,9 @@ public class JourneyDirectionsFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-    private static double mLatitude;
-    private static double mLongitude;
+    private static Place mDestination;
+    private static CurrentLocation mCurrLocation;
+    private static DirectionsEndPoint mDirectionsEndPoint;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -42,9 +46,10 @@ public class JourneyDirectionsFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static JourneyDirectionsFragment newInstance(double latitude, double longitude) {
-        mLatitude = latitude;
-        mLongitude = longitude;
+    public static JourneyDirectionsFragment newInstance(Place destination, CurrentLocation currLocation) {
+        mDestination = destination;
+        mCurrLocation = currLocation;
+        mDirectionsEndPoint = DirectionsEndPoint.getInstance();
 
         JourneyDirectionsFragment fragment = new JourneyDirectionsFragment();
         Bundle args = new Bundle();
@@ -60,7 +65,7 @@ public class JourneyDirectionsFragment extends Fragment {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
 
-//        DirectionsEndPoint.
+        mDirectionsEndPoint.getDirectionsFromAtoB(mCurrLocation, mDestination);
     }
 
     @Override
