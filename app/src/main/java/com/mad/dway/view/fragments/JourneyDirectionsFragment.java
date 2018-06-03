@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 
 import com.mad.dway.R;
 import com.mad.dway.model.CurrentLocation;
+import com.mad.dway.model.Directions;
 import com.mad.dway.model.DirectionsEndPoint;
+import com.mad.dway.model.DirectionsRepository;
 import com.mad.dway.model.Place;
 import com.mad.dway.view.fragments.dummy.DummyContent;
 import com.mad.dway.view.fragments.dummy.DummyContent.DummyItem;
@@ -35,7 +37,8 @@ public class JourneyDirectionsFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private static Place mDestination;
     private static CurrentLocation mCurrLocation;
-    private static DirectionsEndPoint mDirectionsEndPoint;
+    private static DirectionsRepository mDirectionsRepo;
+    private static Directions mDirections;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -49,7 +52,7 @@ public class JourneyDirectionsFragment extends Fragment {
     public static JourneyDirectionsFragment newInstance(Place destination, CurrentLocation currLocation) {
         mDestination = destination;
         mCurrLocation = currLocation;
-        mDirectionsEndPoint = DirectionsEndPoint.getInstance();
+        mDirectionsRepo = DirectionsRepository.getInstance();
 
         JourneyDirectionsFragment fragment = new JourneyDirectionsFragment();
         Bundle args = new Bundle();
@@ -65,13 +68,15 @@ public class JourneyDirectionsFragment extends Fragment {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
 
-        mDirectionsEndPoint.getDirectionsFromAtoB(mCurrLocation, mDestination);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_journey_directions_list, container, false);
+
+        mDirectionsRepo.getDirectionsFromAtoB(mCurrLocation, mDestination);
+        mDirections = mDirectionsRepo.getDirections();
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -82,7 +87,7 @@ public class JourneyDirectionsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyJourneyDirectionsRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyJourneyDirectionsRecyclerViewAdapter(mDirections.getDirectionInstructions(), mListener));
         }
         return view;
     }
@@ -117,6 +122,6 @@ public class JourneyDirectionsFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(String direction);
     }
 }

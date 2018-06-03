@@ -37,14 +37,9 @@ public class DirectionsEndPoint {
         return mDirectionsEndPoint;
     }
 
-    public static DirectionsRoute[] getDirectionsFromAtoB(CurrentLocation locationA, Place locationB) {
-        String locationALatLng = String.valueOf(locationA.getLatitude())
-                + ","
-                + String.valueOf(locationA.getLongitude());
-        String locationBLatLng = String.valueOf(locationB.getLatitude())
-                + ","
-                + String.valueOf(locationB.getLongitude());
-        DirectionsApiRequest request = DirectionsApi.getDirections(mContext, locationALatLng, locationBLatLng );
+    public static DirectionsRoute[] getDirectionsFromAtoB(String locationA, String locationB) {
+
+        DirectionsApiRequest request = DirectionsApi.getDirections(mContext, locationA, locationB);
 
         try {
             DirectionsResult result = request.await();
