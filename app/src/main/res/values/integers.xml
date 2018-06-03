@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <integer name="page1">1</integer>
+    <integer name="page2">2</integer>
+    <integer name="page3">3</integer>
+</resources>
