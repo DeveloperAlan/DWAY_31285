@@ -1,9 +1,12 @@
 package com.mad.dway.view.activities;
 
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -35,6 +38,7 @@ import com.mad.dway.model.User;
 import com.mad.dway.model.UserRepository;
 import com.mad.dway.presenter.MainPresenter;
 import com.mad.dway.view.fragments.JourneyFragment;
+import com.mad.dway.view.fragments.LobbyFragment;
 import com.mad.dway.view.fragments.MapFragment;
 import com.mad.dway.R;
 import com.mad.dway.view.fragments.SearchResultsFragment;
@@ -67,8 +71,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mMainPresenter = new MainPresenter(this);
-
         // Get Firebase authentication instance
         mAuth = FirebaseAuth.getInstance();
 
@@ -92,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        mSectionsPagerAdapter.setPrimaryItem(mViewPager, 1, mMapFragment);
+
+        mMainPresenter = new MainPresenter(this);
 
     }
 
@@ -126,7 +132,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onListFragmentInteraction(Place place) {
-
+        Fragment lobbyFragment = new LobbyFragment();
+        FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+        fragTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragTransaction.replace(R.id.fragment_journey_root, new LobbyFragment(), "fragment_journey_lobby");
+        fragTransaction.commit();
     }
 
     /**
@@ -169,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -179,16 +189,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            Fragment fragment = null;
+
             if (position == 0) {
 //                return ExploreFragment.newInstance();
             }
             if (position == 1) {
-                return mMapFragment.newInstance();
+                fragment = mMapFragment.newInstance();
+                mViewPager.setTag(R.integer.page2, fragment);
             } else if (position == 2) {
-                return mJourneyFragment.newInstance();
+                fragment = mJourneyFragment.newInstance();
+                mViewPager.setTag(R.integer.page3, fragment);
             } else {
-                return PlaceholderFragment.newInstance(position + 1);
+                fragment = PlaceholderFragment.newInstance(position + 1);
+                mViewPager.setTag(R.integer.page1, fragment);
             }
+
+            return fragment;
         }
 
         @Override
@@ -215,5 +232,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public ViewPager getViewPager() {
+        Log.d("view pager", String.valueOf(mViewPager));
+        return mViewPager;
     }
 }

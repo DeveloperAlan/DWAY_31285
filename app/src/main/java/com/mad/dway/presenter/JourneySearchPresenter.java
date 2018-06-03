@@ -15,6 +15,7 @@ import com.mad.dway.model.Place;
 import com.mad.dway.model.PlacesEndPoint;
 import com.mad.dway.model.SearchedPlaces;
 import com.mad.dway.view.fragments.JourneyFragment;
+import com.mad.dway.view.fragments.JourneySearchFragment;
 import com.mad.dway.view.fragments.SearchResultsFragment;
 
 import java.util.ArrayList;
@@ -23,9 +24,9 @@ import java.util.ArrayList;
  * Created by ang on 28/5/18.
  */
 
-public class JourneyPresenter {
+public class JourneySearchPresenter {
 
-    private JourneyFragment mJourneyFragment;
+    private JourneySearchFragment mJourneySearchFragment;
     private FragmentManager mFragmentManager;
     private PlacesEndPoint mPlacesApiEndPoint;
     private SearchedPlaces mSearchedPlaces;
@@ -36,10 +37,10 @@ public class JourneyPresenter {
     private Button mSearchButton;
 
 
-    public JourneyPresenter(JourneyFragment view) {
-        mJourneyFragment = view;
-        mFragmentManager = mJourneyFragment.getFragmentManager();
-        mView = mJourneyFragment.getView();
+    public JourneySearchPresenter(JourneySearchFragment view) {
+        mJourneySearchFragment = view;
+        mFragmentManager = mJourneySearchFragment.getFragmentManager();
+        mView = mJourneySearchFragment.getView();
         mPlacesApiEndPoint = PlacesEndPoint.getInstance();
         mSearchedPlaces = SearchedPlaces.getInstance();
         mSearchEditText = mView.findViewById(R.id.fragment_journey_search_edit_text);
@@ -63,7 +64,7 @@ public class JourneyPresenter {
     public void addLobbyFragment() {
         FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
 
-        mLobbyFragment = new LobbyFragment();
+//        mLobbyFragment = new LobbyFragment();
     }
 
     public void removeResultsDropdown() {

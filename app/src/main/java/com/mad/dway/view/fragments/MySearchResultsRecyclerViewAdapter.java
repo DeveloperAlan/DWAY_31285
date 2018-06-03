@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.mad.dway.R;
@@ -43,7 +44,8 @@ public class MySearchResultsRecyclerViewAdapter extends RecyclerView.Adapter<MyS
         holder.mPlace = mPlaces.get(position);
         holder.mContentView.setText(mPlaces.get(position).getName());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        Log.d("set", "onclick");
+        holder.mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
@@ -63,13 +65,13 @@ public class MySearchResultsRecyclerViewAdapter extends RecyclerView.Adapter<MyS
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mContentView;
+        public final Button mContentView;
         public Place mPlace;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = (Button) view.findViewById(R.id.content);
         }
 
         @Override
