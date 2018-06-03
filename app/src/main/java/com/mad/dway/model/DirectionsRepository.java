@@ -1,5 +1,6 @@
 package com.mad.dway.model;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.maps.model.DirectionsLeg;
@@ -49,16 +50,17 @@ public class DirectionsRepository {
                 + ","
                 + String.valueOf(locationB.getLongitude());
 
-        DirectionsRoute[] result = mDirectionsEndPoint.getDirectionsFromAtoB(locationALatLng, locationBLatLng);
+//        DirectionsRoute[] result = mDirectionsEndPoint.getDirectionsFromAtoB(locationALatLng, locationBLatLng);
 
-        DirectionsLeg leg = result[0].legs[0];
-
-        for (int i = 0; i < leg.steps.length; i++) {
-            DirectionsStep step = result[0].legs[0].steps[i];
-            String htmlInstruction = step.htmlInstructions;
-            String textInstruction = fixTextFormattingInstruction(htmlInstruction);
-            mDirections.pushDirectionStepIntoInstructions(textInstruction);
-        }
+        new GetDirectionsTask().execute(locationALatLng, locationBLatLng);
+//        DirectionsLeg leg = result[0].legs[0];
+//
+//        for (int i = 0; i < leg.steps.length; i++) {
+//            DirectionsStep step = result[0].legs[0].steps[i];
+//            String htmlInstruction = step.htmlInstructions;
+//            String textInstruction = fixTextFormattingInstruction(htmlInstruction);
+//            mDirections.pushDirectionStepIntoInstructions(textInstruction);
+//        }
 
 
 //        for (int i = 0; i < result.length; i++) {
@@ -80,6 +82,29 @@ public class DirectionsRepository {
 //        }
 
         return mDirectionsInstructions;
+    }
+
+    private static class GetDirectionsTask extends AsyncTask<String, Void, DirectionsRoute[]> {
+
+        @Override
+        protected DirectionsRoute[] doInBackground(String... strings) {
+            DirectionsRoute[] result = mDirectionsEndPoint.getDirectionsFromAtoB(strings[0], strings[1]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(DirectionsRoute[] directionsRoutes) {
+            super.onPostExecute(directionsRoutes);
+
+            DirectionsLeg leg = directionsRoutes[0].legs[0];
+
+            for (int i = 0; i < leg.steps.length; i++) {
+                DirectionsStep step = directionsRoutes[0].legs[0].steps[i];
+                String htmlInstruction = step.htmlInstructions;
+                String textInstruction = fixTextFormattingInstruction(htmlInstruction);
+                mDirections.pushDirectionStepIntoInstructions(textInstruction);
+            }
+        }
     }
 
     private static String fixTextFormattingInstruction(String instruction) {
