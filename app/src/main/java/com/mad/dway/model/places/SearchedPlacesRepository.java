@@ -1,30 +1,30 @@
-package com.mad.dway.model;
+package com.mad.dway.model.places;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.maps.model.Photo;
 import com.google.maps.model.PlacesSearchResult;
 
 import java.util.ArrayList;
 
 /**
- * Created by ang on 2/6/18.
+ * Repository to organise retrival of information related to searching places, using the places end
+ * point to search for particular locations and also to save the locations in memory
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
-public class SearchedPlaces {
-    private static SearchedPlaces mInstance;
+public class SearchedPlacesRepository {
+    private static SearchedPlacesRepository mInstance;
     private static PlacesEndPoint mPlacesEndPoint;
     private static ArrayList<Place> mSearchedPlaces;
 
-    private SearchedPlaces() {
+    private SearchedPlacesRepository() {
     }
 
-    public static SearchedPlaces getInstance() {
+    public static SearchedPlacesRepository getInstance() {
         if (mInstance == null) {
-            mInstance = new SearchedPlaces();
+            mInstance = new SearchedPlacesRepository();
             mPlacesEndPoint = PlacesEndPoint.getInstance();
             mSearchedPlaces = new ArrayList<>();
         }

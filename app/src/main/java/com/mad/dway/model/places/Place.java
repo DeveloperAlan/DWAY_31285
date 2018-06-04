@@ -1,11 +1,15 @@
-package com.mad.dway.model;
+package com.mad.dway.model.places;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.model.OpeningHours;
 import com.google.maps.model.Photo;
 
 /**
- * Created by ang on 1/6/18.
+ * Place model for both searched places and "Explore" fragment places. Contains information that are
+ * given by the Google Maps Web API
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class Place {

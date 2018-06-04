@@ -27,14 +27,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mad.dway.model.CurrentLocation;
-import com.mad.dway.model.Friend;
-import com.mad.dway.model.Friends;
-import com.mad.dway.model.FriendsRepository;
-import com.mad.dway.model.UserRepository;
+import com.mad.dway.model.location.CurrentLocationRepository;
+import com.mad.dway.model.friends.Friend;
+import com.mad.dway.model.friends.FriendsRepository;
+import com.mad.dway.model.user.UserRepository;
 import com.mad.dway.view.fragments.MapFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -62,7 +60,7 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
     };
 
     private MapFragment mMapView;
-    private CurrentLocation mCurrentLocation;
+    private CurrentLocationRepository mCurrentLocation;
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
@@ -81,7 +79,7 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
     public void onMapsFragmentCreate() {
         mCurrentUser = UserRepository.getInstance();
         mCurrentFriends = FriendsRepository.getInstance();
-        mCurrentLocation = CurrentLocation.getInstance();
+        mCurrentLocation = CurrentLocationRepository.getInstance();
         mUsersRef = FirebaseDatabase.getInstance().getReference("users");
     }
 

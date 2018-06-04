@@ -1,7 +1,6 @@
 package com.mad.dway.view.fragments;
 
 import android.content.Context;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,15 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mad.dway.R;
-import com.mad.dway.model.CurrentLocation;
-import com.mad.dway.model.Directions;
-import com.mad.dway.model.DirectionsEndPoint;
-import com.mad.dway.model.DirectionsRepository;
-import com.mad.dway.model.Place;
-import com.mad.dway.view.fragments.dummy.DummyContent;
-import com.mad.dway.view.fragments.dummy.DummyContent.DummyItem;
-
-import java.util.List;
+import com.mad.dway.model.location.CurrentLocationRepository;
+import com.mad.dway.model.directions.Directions;
+import com.mad.dway.model.directions.DirectionsRepository;
+import com.mad.dway.model.places.Place;
 
 /**
  * A fragment representing a list of Items.
@@ -36,7 +30,7 @@ public class JourneyDirectionsFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private static Place mDestination;
-    private static CurrentLocation mCurrLocation;
+    private static CurrentLocationRepository mCurrLocation;
     private static DirectionsRepository mDirectionsRepo;
     private static Directions mDirections;
 
@@ -49,7 +43,7 @@ public class JourneyDirectionsFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static JourneyDirectionsFragment newInstance(Place destination, CurrentLocation currLocation) {
+    public static JourneyDirectionsFragment newInstance(Place destination, CurrentLocationRepository currLocation) {
         mDestination = destination;
         mCurrLocation = currLocation;
         mDirectionsRepo = DirectionsRepository.getInstance();
@@ -75,6 +69,7 @@ public class JourneyDirectionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_journey_directions_list, container, false);
 
+        mDirections = null;
         mDirectionsRepo.getDirectionsFromAtoB(mCurrLocation, mDestination);
         mDirections = mDirectionsRepo.getDirections();
 

@@ -1,9 +1,12 @@
-package com.mad.dway.model;
+package com.mad.dway.model.directions;
 
 import java.util.ArrayList;
 
 /**
- * Created by ang on 3/6/18.
+ * Directions model which provides turn by turn navigation instruction steps in a text format
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class Directions {

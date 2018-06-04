@@ -1,18 +1,19 @@
-package com.mad.dway.model;
+package com.mad.dway.model.places;
 
 import android.util.Log;
 
 import com.google.maps.GeoApiContext;
-import com.google.maps.PendingResult;
 import com.google.maps.PlacesApi;
 import com.google.maps.TextSearchRequest;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 
-import org.w3c.dom.Text;
-
 /**
- * Created by ang on 28/5/18.
+ * Places End point to communicate with the Google Web services API to get places close to what the
+ * user has searched or what the application explore feature has searched
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class PlacesEndPoint {

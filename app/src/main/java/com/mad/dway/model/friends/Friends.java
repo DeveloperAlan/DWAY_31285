@@ -1,14 +1,16 @@
-package com.mad.dway.model;
+package com.mad.dway.model.friends;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.database.FirebaseDatabase;
+import com.mad.dway.model.friends.Friend;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 
 /**
- * Created by ang on 27/5/18.
+ * List of Friends of the user which can be returned to populate the map with other user's locations
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class Friends extends Observable implements Serializable{

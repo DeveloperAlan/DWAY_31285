@@ -1,17 +1,22 @@
-package com.mad.dway.model;
+package com.mad.dway.model.directions;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
-import com.google.maps.model.Fare;
+import com.mad.dway.model.location.CurrentLocationRepository;
+import com.mad.dway.model.places.Place;
 
 import java.util.ArrayList;
 
 /**
- * Created by ang on 3/6/18.
+ * Directions Repository provides a communication gateway to the Directions model and Api endpoint
+ * as well as organising both the model and api into one package that can be accessed via this repo
+ * without using the model and api directly
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class DirectionsRepository {
@@ -42,7 +47,7 @@ public class DirectionsRepository {
         DirectionsRepository.mDirections = mDirections;
     }
 
-    public static ArrayList<String> getDirectionsFromAtoB(CurrentLocation locationA, Place locationB) {
+    public static void getDirectionsFromAtoB(CurrentLocationRepository locationA, Place locationB) {
         String locationALatLng = String.valueOf(locationA.getLatitude())
                 + ","
                 + String.valueOf(locationA.getLongitude());
@@ -53,35 +58,7 @@ public class DirectionsRepository {
 //        DirectionsRoute[] result = mDirectionsEndPoint.getDirectionsFromAtoB(locationALatLng, locationBLatLng);
 
         new GetDirectionsTask().execute(locationALatLng, locationBLatLng);
-//        DirectionsLeg leg = result[0].legs[0];
-//
-//        for (int i = 0; i < leg.steps.length; i++) {
-//            DirectionsStep step = result[0].legs[0].steps[i];
-//            String htmlInstruction = step.htmlInstructions;
-//            String textInstruction = fixTextFormattingInstruction(htmlInstruction);
-//            mDirections.pushDirectionStepIntoInstructions(textInstruction);
-//        }
 
-
-//        for (int i = 0; i < result.length; i++) {
-//
-//            Log.d("routes legs", String.valueOf(result[i].legs));
-//            for (int j = 0; j < result[i].legs.length; j++) {
-//                Log.d("route each leg", String.valueOf(result[i].legs[j].steps));
-//                for (int l = 0; l < result[i].legs[j].steps.length; l++) {
-//                    Log.d("route each leg", String.valueOf(result[i].legs[j].steps[l].htmlInstructions));
-//                }
-//            }
-//            Log.d("routes waypoint order", String.valueOf(result[i].waypointOrder));
-//            Log.d("routes waypoint order", String.valueOf(result[i].waypointOrder.length));
-//            for (int k = 0; k < result[i].waypointOrder.length; k++) {
-//                Log.d("route each leg", String.valueOf(result[i].waypointOrder[k]));
-//            }
-//            Fare fare = result[i].fare;
-//            Log.d("fare", String.valueOf(fare));
-//        }
-
-        return mDirectionsInstructions;
     }
 
     private static class GetDirectionsTask extends AsyncTask<String, Void, DirectionsRoute[]> {

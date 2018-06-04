@@ -1,10 +1,7 @@
 package com.mad.dway.view.activities;
 
-import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -18,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,24 +24,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.mad.dway.model.CurrentLocation;
-import com.mad.dway.model.DirectionsEndPoint;
-import com.mad.dway.model.Place;
-import com.mad.dway.model.PlacesEndPoint;
-import com.mad.dway.model.User;
-import com.mad.dway.model.UserRepository;
+import com.mad.dway.model.location.CurrentLocationRepository;
+import com.mad.dway.model.places.Place;
 import com.mad.dway.presenter.MainPresenter;
 import com.mad.dway.view.fragments.JourneyDirectionsFragment;
 import com.mad.dway.view.fragments.JourneyFragment;
-import com.mad.dway.view.fragments.JourneySearchFragment;
-import com.mad.dway.view.fragments.LobbyFragment;
 import com.mad.dway.view.fragments.MapFragment;
 import com.mad.dway.R;
 import com.mad.dway.view.fragments.SearchResultsFragment;
-import com.mad.dway.view.fragments.dummy.DummyContent;
+
+/**
+ * Activity of which the app starts off, connects all the activities and fragments together.
+ * Has map fragment and journey fragment on launch
+ *
+ * @author  12934713
+ * @version 1.0
+ */
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -71,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements
     private MapFragment mMapFragment;
     private MainPresenter mMainPresenter;
     private JourneyFragment mJourneyFragment;
-    private CurrentLocation mCurrentLocation;
+    private CurrentLocationRepository mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements
         mSectionsPagerAdapter.setPrimaryItem(mViewPager, 1, mMapFragment);
 
         mMainPresenter = new MainPresenter(this);
-        mCurrentLocation = CurrentLocation.getInstance();
+        mCurrentLocation = CurrentLocationRepository.getInstance();
 
     }
 
@@ -147,7 +141,8 @@ public class MainActivity extends AppCompatActivity implements
         fragTransaction.replace(
                 R.id.fragment_journey_root,
                 JourneyDirectionsFragment.newInstance(place, mCurrentLocation.getLocation()),
-                "fragment_journey_lobby");
+                "fragment_journey_directions");
+        fragTransaction.addToBackStack("journey_directions");
         fragTransaction.commit();
     }
 
@@ -209,17 +204,11 @@ public class MainActivity extends AppCompatActivity implements
             Fragment fragment = null;
 
             if (position == 0) {
-//                return ExploreFragment.newInstance();
-            }
-            if (position == 1) {
                 fragment = mMapFragment.newInstance();
                 mViewPager.setTag(R.integer.page2, fragment);
-            } else if (position == 2) {
+            } else if (position == 1) {
                 fragment = mJourneyFragment.newInstance();
                 mViewPager.setTag(R.integer.page3, fragment);
-            } else {
-                fragment = PlaceholderFragment.newInstance(position + 1);
-                mViewPager.setTag(R.integer.page1, fragment);
             }
 
             return fragment;
@@ -227,8 +216,8 @@ public class MainActivity extends AppCompatActivity implements
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 2 total pages.
+            return 2;
         }
     }
 
@@ -252,7 +241,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public ViewPager getViewPager() {
-        Log.d("view pager", String.valueOf(mViewPager));
         return mViewPager;
     }
 }

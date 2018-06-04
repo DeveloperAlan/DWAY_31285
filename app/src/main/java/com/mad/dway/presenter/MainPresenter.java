@@ -1,17 +1,14 @@
 package com.mad.dway.presenter;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.mad.dway.R;
-import com.mad.dway.model.FriendsRepository;
-import com.mad.dway.model.UserRepository;
+import com.mad.dway.model.friends.FriendsRepository;
+import com.mad.dway.model.user.UserRepository;
 import com.mad.dway.view.activities.MainActivity;
-import com.mad.dway.view.fragments.SearchResultsFragment;
 
 /**
  * Created by ang on 21/5/18.

@@ -1,11 +1,14 @@
-package com.mad.dway.model;
+package com.mad.dway.model.friends;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
 
 /**
- * Created by ang on 27/5/18.
+ * Friend model which contains information needs to display to user, such as name and location
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class Friend implements Serializable {

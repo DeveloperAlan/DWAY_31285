@@ -1,14 +1,11 @@
-package com.mad.dway.model;
+package com.mad.dway.model.directions;
 
-import android.location.Location;
 import android.util.Log;
 
 import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
-import com.google.maps.PendingResult;
 import com.google.maps.errors.ApiException;
-import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.Fare;
@@ -16,11 +13,18 @@ import com.google.maps.model.Fare;
 import java.io.IOException;
 
 /**
- * Created by ang on 28/5/18.
+ * Directions End point provides a gateway from the application to the Google Maps Web Api
+ * for turn by turn directions as well as visualized directions on the map
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class DirectionsEndPoint {
+
+    // Api key for the Directions Endpoint
     private static String DIRECTIONS_API_KEY = "AIzaSyBNw8N_JdijSoRQQqUR-6HPkV5Z37YkWPQ";
+
     private static GeoApiContext mContext;
     private static DirectionsEndPoint mDirectionsEndPoint = null;
     private static DirectionsRoute[] mDirectionsRoute;

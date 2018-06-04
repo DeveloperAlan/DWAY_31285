@@ -1,21 +1,18 @@
 package com.mad.dway.view.fragments;
 
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.mad.dway.R;
-import com.mad.dway.model.Place;
+import com.mad.dway.model.places.Place;
 import com.mad.dway.view.fragments.SearchResultsFragment.OnListFragmentInteractionListener;
 import com.mad.dway.view.fragments.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the

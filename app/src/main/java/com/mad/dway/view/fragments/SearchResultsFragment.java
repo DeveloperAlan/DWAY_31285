@@ -6,17 +6,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mad.dway.R;
-import com.mad.dway.model.Place;
-import com.mad.dway.model.PlacesEndPoint;
-import com.mad.dway.model.SearchedPlaces;
-import com.mad.dway.view.fragments.dummy.DummyContent;
-import com.mad.dway.view.fragments.dummy.DummyContent.DummyItem;
+import com.mad.dway.model.places.Place;
+import com.mad.dway.model.places.SearchedPlacesRepository;
 
 import java.util.ArrayList;
 
@@ -31,7 +27,7 @@ public class SearchResultsFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    private static SearchedPlaces mSearchedPlaces;
+    private static SearchedPlacesRepository mSearchedPlaces;
     private static ArrayList<Place> mSearchedPlacesList;
     // TODO: Customize parameters
     private int mColumnCount = 1;
@@ -57,7 +53,7 @@ public class SearchResultsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSearchedPlaces = SearchedPlaces.getInstance();
+        mSearchedPlaces = SearchedPlacesRepository.getInstance();
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);

@@ -3,25 +3,21 @@ package com.mad.dway.presenter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.mad.dway.R;
-import com.mad.dway.model.Place;
-import com.mad.dway.model.PlacesEndPoint;
-import com.mad.dway.model.SearchedPlaces;
-import com.mad.dway.view.fragments.JourneyFragment;
+import com.mad.dway.model.places.PlacesEndPoint;
+import com.mad.dway.model.places.SearchedPlacesRepository;
 import com.mad.dway.view.fragments.JourneySearchFragment;
 import com.mad.dway.view.fragments.SearchResultsFragment;
 
-import java.util.ArrayList;
-
 /**
- * Created by ang on 28/5/18.
+ * Journey Search presenter
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class JourneySearchPresenter {
@@ -29,7 +25,7 @@ public class JourneySearchPresenter {
     private JourneySearchFragment mJourneySearchFragment;
     private FragmentManager mFragmentManager;
     private PlacesEndPoint mPlacesApiEndPoint;
-    private SearchedPlaces mSearchedPlaces;
+    private SearchedPlacesRepository mSearchedPlaces;
     private Fragment mSearchResult;
     private Fragment mLobbyFragment;
     private EditText mSearchEditText;
@@ -42,7 +38,7 @@ public class JourneySearchPresenter {
         mFragmentManager = mJourneySearchFragment.getFragmentManager();
         mView = mJourneySearchFragment.getView();
         mPlacesApiEndPoint = PlacesEndPoint.getInstance();
-        mSearchedPlaces = SearchedPlaces.getInstance();
+        mSearchedPlaces = SearchedPlacesRepository.getInstance();
         mSearchEditText = mView.findViewById(R.id.fragment_journey_search_edit_text);
         mSearchButton = mView.findViewById(R.id.destination_search_button);
         addSearchButtonListener();
@@ -84,7 +80,7 @@ public class JourneySearchPresenter {
     }
 
     public void searchForResults() {
-        mSearchedPlaces.setPlaces(SearchedPlaces.searchPlace(String.valueOf(mSearchEditText.getText())));
+        mSearchedPlaces.setPlaces(SearchedPlacesRepository.searchPlace(String.valueOf(mSearchEditText.getText())));
         addResultsDropdown();
     }
 

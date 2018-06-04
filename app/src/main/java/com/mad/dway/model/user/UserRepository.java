@@ -1,4 +1,4 @@
-package com.mad.dway.model;
+package com.mad.dway.model.user;
 
 import android.util.Log;
 
@@ -12,7 +12,8 @@ import com.google.firebase.database.FirebaseDatabase;
  * UserRepository for the User instance. Monitors for both the local and remote (Firebase)
  * data
  *
- * Created by 12934713 on 25/5/18.
+ * @author  12934713
+ * @version 1.0
  */
 
 public class UserRepository {

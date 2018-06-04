@@ -1,23 +1,25 @@
-package com.mad.dway.model;
+package com.mad.dway.model.friends;
 
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mad.dway.presenter.MapPresenter;
+import com.mad.dway.R;
 
 import java.util.ArrayList;
 import java.util.Observable;
 
 /**
- * Created by ang on 28/5/18.
+ * Friends Repository which contains all the methods per instance to get friends list of the user
+ * and methods to modify and get friends
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class FriendsRepository extends Observable {
@@ -34,7 +36,7 @@ public class FriendsRepository extends Observable {
     }
 
     public static FriendsRepository getInstance() {
-        Log.d("instance", "friends repo");
+        Log.d("Friends Repository", String.valueOf(R.string.startFriendsRepo));
         if (sInstance == null) {
             sInstance = new FriendsRepository();
 

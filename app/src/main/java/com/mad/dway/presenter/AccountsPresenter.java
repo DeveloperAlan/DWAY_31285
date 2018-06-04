@@ -11,7 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by ang on 21/5/18.
+ * Accounts Presenter for the fragment. Retreives the firebase accounts ui as well as sort out logout
+ * functionality.
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class AccountsPresenter {

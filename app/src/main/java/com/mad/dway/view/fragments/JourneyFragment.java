@@ -3,16 +3,12 @@ package com.mad.dway.view.fragments;
 import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mad.dway.R;
-import com.mad.dway.model.DirectionsEndPoint;
-import com.mad.dway.model.Place;
-import com.mad.dway.presenter.JourneySearchPresenter;
-import com.mad.dway.view.fragments.dummy.DummyContent;
+import com.mad.dway.model.directions.DirectionsEndPoint;
 
 /**
  * Created by ang on 28/5/18.
