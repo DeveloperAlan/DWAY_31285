@@ -33,6 +33,11 @@ public class DirectionsEndPoint {
 
     }
 
+    /**
+     * Create a new instance of the directions end point
+     *
+     * @return DirectionsEndPoint  the DirectionsEndPoint instance
+     */
     public static DirectionsEndPoint getInstance() {
         if (mDirectionsEndPoint == null) {
             mDirectionsEndPoint = new DirectionsEndPoint();
@@ -41,6 +46,13 @@ public class DirectionsEndPoint {
         return mDirectionsEndPoint;
     }
 
+    /**
+     * Api request to the Google maps instance to get the users journey
+     *
+     * @param locationA     starting location
+     * @param locationB     end location
+     * @return  the route to take for the user
+     */
     public static DirectionsRoute[] getDirectionsFromAtoB(String locationA, String locationB) {
 
         DirectionsApiRequest request = DirectionsApi.getDirections(mContext, locationA, locationB);
@@ -57,11 +69,11 @@ public class DirectionsEndPoint {
             Log.d("fare", String.valueOf(fare));
 
         } catch (IOException e) {
-
+            return null;
         } catch (ApiException e) {
-
+            return null;
         } catch (InterruptedException e) {
-
+            return null;
         }
 
         return mDirectionsRoute;

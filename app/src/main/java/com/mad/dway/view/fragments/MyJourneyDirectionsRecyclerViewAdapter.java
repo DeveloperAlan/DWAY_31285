@@ -9,18 +9,21 @@ import android.widget.TextView;
 
 import com.mad.dway.R;
 import com.mad.dway.view.fragments.JourneyDirectionsFragment.OnListFragmentInteractionListener;
-import com.mad.dway.view.fragments.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * Recycler View Adapter for the journey directions. Adds journey steps to the recycler view so that
+ * the user can view the steps needed to get to the destination.
+ *
+ * @author  12934713
+ * @version 1.0
  */
+
 public class MyJourneyDirectionsRecyclerViewAdapter extends RecyclerView.Adapter<MyJourneyDirectionsRecyclerViewAdapter.ViewHolder> {
 
+    // contains list of values of each item
     private final ArrayList<String> mValues;
     private final OnListFragmentInteractionListener mListener;
 

@@ -7,9 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.IdpResponse;
 import com.mad.dway.R;
@@ -17,18 +15,18 @@ import com.mad.dway.model.user.UserRepository;
 import com.mad.dway.presenter.AccountsPresenter;
 
 /**
- * Created by ang on 14/5/18.
+ * Accounts Fragment for the Accounts functionality and view. The fragments contains the accounts
+ * sign in, resgister and log out code as well as the UI code for accounts
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class AccountsFragment extends Fragment {
+
+    // callback code for firebase ui
     public static final int RC_SIGN_IN = 123;
     private AccountsPresenter mAccountsPresenter;
-    private Button mSignUpButton;
-    private Button mLogOutButton;
-    private TextView mNameTextView;
-    private TextView mEmailTextView;
-    private LinearLayout mLoggedInLayout;
-    private LinearLayout mNotLoggedInLayout;
     private View mView;
     private UserRepository mCurrentUser;
 
@@ -38,7 +36,6 @@ public class AccountsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAccountsPresenter = new AccountsPresenter(this);
         mCurrentUser = UserRepository.getInstance();
     }
 
@@ -46,13 +43,7 @@ public class AccountsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_accounts, container, false);
-        mLoggedInLayout = mView.findViewById(R.id.logged_in);
-        mNotLoggedInLayout= mView.findViewById(R.id.not_logged_in);
-        mNameTextView = mView.findViewById(R.id.name_text_view);
-        mEmailTextView = mView.findViewById(R.id.email_text_view);
-
-        getSignUpButton();
-        getLogOutButton();
+        mAccountsPresenter = new AccountsPresenter(this);
         return mView;
     }
 
@@ -71,55 +62,21 @@ public class AccountsFragment extends Fragment {
 
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
-                setLoggedInLayoutVisible();
+                mAccountsPresenter.setLoggedInLayoutVisible();
                 mCurrentUser.onSignIn();
-                setUserNameEmailText();
+                mAccountsPresenter.setUserNameEmailText();
             } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
+                Toast.makeText(getContext(), R.string.sign_in_error_text, Toast.LENGTH_SHORT);
             }
         }
     }
 
-    public void getSignUpButton() {
-        mSignUpButton = (Button) mView.findViewById(R.id.accounts_sign_up_btn);
-        mSignUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAccountsPresenter.createFirebaseAccountsUI();
-            }
-        });
-    }
-
-    public void getLogOutButton() {
-        mLogOutButton = mView.findViewById(R.id.accounts_log_out_btn);
-        mLogOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAccountsPresenter.logOutFirebaseAccounts();
-            }
-        });
-    }
-
-    public void setLoggedInLayoutVisible() {
-        mLoggedInLayout.setVisibility(View.VISIBLE);
-        mNotLoggedInLayout.setVisibility(View.GONE);
-    }
-
-    public void setNotLoggedInLayoutVisible() {
-        mLoggedInLayout.setVisibility(View.GONE);
-        mNotLoggedInLayout.setVisibility(View.VISIBLE);
-    }
-
     /**
-     * Set the Users Email and Name in the Accounts View
+     * Returns the layout
      *
-     * @returns     null
+     * @return View     The layout the fragment class is associated with
      */
-    private void setUserNameEmailText() {
-        mEmailTextView.setText(mCurrentUser.getEmail());
-        mNameTextView.setText(mCurrentUser.getName());
+    public View getView() {
+        return mView;
     }
 }

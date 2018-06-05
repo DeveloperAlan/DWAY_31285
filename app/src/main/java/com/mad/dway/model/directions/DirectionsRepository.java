@@ -23,12 +23,16 @@ public class DirectionsRepository {
     private static DirectionsEndPoint mDirectionsEndPoint;
     private static Directions mDirections;
     private static DirectionsRepository mDirectionsRepository;
-    private static ArrayList<String> mDirectionsInstructions;
 
     private DirectionsRepository() {
 
     }
 
+    /**
+     * Get or Create an instance of DirectionsRepository
+     *
+     * @return the instance of DirectionsRepository
+     */
     public static DirectionsRepository getInstance() {
         if (mDirectionsRepository == null) {
             mDirectionsRepository = new DirectionsRepository();
@@ -39,14 +43,31 @@ public class DirectionsRepository {
         return mDirectionsRepository;
     }
 
+    /**
+     * Get the directions of the journey
+     *
+     * @return Directions bbject
+     */
     public static Directions getDirections() {
         return mDirections;
     }
 
+    /**
+     * Set directions of the journey to the Directions object
+     *
+     * @param mDirections
+     * @return null
+     */
     public static void setDirections(Directions mDirections) {
         DirectionsRepository.mDirections = mDirections;
     }
 
+    /**
+     * Get the directions to A to B via AsyncTask
+     *
+     * @param locationA starting location
+     * @param locationB end location
+     */
     public static void getDirectionsFromAtoB(CurrentLocationRepository locationA, Place locationB) {
         String locationALatLng = String.valueOf(locationA.getLatitude())
                 + ","
@@ -61,6 +82,12 @@ public class DirectionsRepository {
 
     }
 
+    /**
+     * Async task to get the directions for the journey/route. Asks the Directions End point
+     *
+     * @author  12934713
+     * @version 1.0
+     */
     private static class GetDirectionsTask extends AsyncTask<String, Void, DirectionsRoute[]> {
 
         @Override
@@ -84,6 +111,12 @@ public class DirectionsRepository {
         }
     }
 
+    /**
+     * Format the HTML encoded instructions to work with Android
+     *
+     * @param instruction
+     * @return The instruction
+     */
     private static String fixTextFormattingInstruction(String instruction) {
         String removalOpeningBreakBrace = "<b>";
         String removalClosingBreakBrace = "</b>";

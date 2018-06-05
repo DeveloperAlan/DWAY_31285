@@ -28,6 +28,11 @@ public class Friends extends Observable implements Serializable{
         mFriendsList = friendsList;
     }
 
+    /**
+     * Update each friends location in the app
+     *
+     * @param friend
+     */
     public void updateFriendInFriendsList(Friend friend) {
         for (int i = 0; i < mFriendsList.size(); i++) {
             if (mFriendsList.get(i).getUId() == friend.getUId()) {

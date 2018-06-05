@@ -10,14 +10,15 @@ import android.widget.Button;
 import com.mad.dway.R;
 import com.mad.dway.model.places.Place;
 import com.mad.dway.view.fragments.SearchResultsFragment.OnListFragmentInteractionListener;
-import com.mad.dway.view.fragments.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * Adapter to process the list of Places that have been searched by the user as well as place each
+ * individual place into its own item
+ *
+ * @author  12934713
+ * @version 1.0
  */
 public class MySearchResultsRecyclerViewAdapter extends RecyclerView.Adapter<MySearchResultsRecyclerViewAdapter.ViewHolder> {
 

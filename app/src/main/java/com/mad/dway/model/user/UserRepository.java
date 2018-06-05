@@ -30,6 +30,11 @@ public class UserRepository {
 
     }
 
+    /**
+     * get instance of the user repository
+     *
+     * @return the instance
+     */
     public static UserRepository getInstance() {
         if (sInstance == null) {
             sInstance = new UserRepository();
@@ -49,8 +54,14 @@ public class UserRepository {
         return sInstance;
     }
 
-    public boolean isCurrentUser(String name) {
-        if (name == getName()) {
+    /**
+     * is the user passed in the current user
+     *
+     * @param email
+     * @return true or false
+     */
+    public boolean isCurrentUser(String email) {
+        if (email == getEmail()) {
             return true;
         }
         return false;
@@ -64,26 +75,21 @@ public class UserRepository {
         return mLocalUser.getEmail();
     }
 
-    public static void destroyInstance() {
-        sInstance = null;
-    }
-
+    /**
+     * setup the local user from firebase into the app
+     */
     private static void setUpLocalUser() {
         mLocalUser = new User(mFirebaseUser.getDisplayName(), mFirebaseUser.getEmail());
-    }
-    
-    private static void saveLocalUserIntoFirebase() {
-        mUsersRef.child(mUId).setValue(mLocalUser);
-    }
-
-    public static void onSignUp() {
-
     }
 
     public static boolean isSignedIn() {
         return mSignedIn;
     }
 
+    /**
+     * setup the local user on the app if the user is signed in on firebase
+     *
+     */
     public static void onSignIn() {
         mSignedIn = true;
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -102,6 +108,9 @@ public class UserRepository {
         }
     }
 
+    /**
+     *  save the user into firebase
+     */
     private static void saveUserIntoFirebase() {
         Log.d("uid", mUId);
         mUsersRef.child(mUId).setValue(mLocalUser);

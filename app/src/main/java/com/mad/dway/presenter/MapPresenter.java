@@ -1,5 +1,6 @@
 package com.mad.dway.presenter;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -27,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mad.dway.R;
 import com.mad.dway.model.location.CurrentLocationRepository;
 import com.mad.dway.model.friends.Friend;
 import com.mad.dway.model.friends.FriendsRepository;
@@ -34,19 +37,20 @@ import com.mad.dway.model.user.UserRepository;
 import com.mad.dway.view.fragments.MapFragment;
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Random;
 
 /**
- * Presenter for the Maps Fragment
+ * Presenter for the map fragment. Sets location on the map for the user and friends as well as location
+ * permissions
  *
- * Created by ang on 21/5/18.
+ * @author  12934713
+ * @version 1.0
  */
 
-public class MapPresenter implements OnMapReadyCallback, Observer {
+public class MapPresenter implements OnMapReadyCallback {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    private static final String USERS_REFERNCE = "users";
     private static final float[] MARKER_COLOURS = {
             BitmapDescriptorFactory.HUE_AZURE,
             BitmapDescriptorFactory.HUE_BLUE,
@@ -76,13 +80,23 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
         mMapView = view;
     }
 
+    /**
+     * When map fragment is first created, get all the instances
+     *
+     * @return void
+     */
     public void onMapsFragmentCreate() {
         mCurrentUser = UserRepository.getInstance();
         mCurrentFriends = FriendsRepository.getInstance();
         mCurrentLocation = CurrentLocationRepository.getInstance();
-        mUsersRef = FirebaseDatabase.getInstance().getReference("users");
+        mUsersRef = FirebaseDatabase.getInstance().getReference(USERS_REFERNCE);
     }
 
+    /**
+     * When map is ready get the location of both the user and friends and mark them on the map
+     *
+     * @return void
+     */
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mMapView.getActivity());
@@ -96,7 +110,7 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
                 if (locationList.size() > 0) {
                     //The last location in the list is the newest
                     Location location = locationList.get(locationList.size() - 1);
-                    Log.i("MapsActivity", "CurrentLocation: " + location.getLatitude() + " " + location.getLongitude());
+                    Log.d("MapsActivity", "CurrentLocation: " + location.getLatitude() + " " + location.getLongitude());
                     mLastLocation = location;
                     mCurrentLocation.setLatitude(location.getLatitude());
                     mCurrentLocation.setLongitude(location.getLongitude());
@@ -117,7 +131,7 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
                     markerOptions.position(latLng);
 
 
-                    markerOptions.title("That's you!");
+                    markerOptions.title(mMapView.getResources().getString(R.string.current_user_location_msg));
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                     mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
@@ -152,6 +166,11 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
         }
     }
 
+    /**
+     * Set all the friends locations on the map for the user to see
+     *
+     * @return void
+     */
     private void setAllFriendsLocationsOnMap() {
         mUsersRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -180,19 +199,29 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
 
     }
 
+    /**
+     * When map is ready get the location of both the user and friends and mark them on the map
+     *
+     * @return void
+     */
     private void updateFriendLocationOnMap(Friend friend) {
         if (friend.getLatLng() == null ) return;
-        Log.d("frineds gps", friend.getLatLng().toString());
+        Log.d("friends gps", friend.getLatLng().toString());
         MarkerOptions markerOptions = new MarkerOptions();
 
         markerOptions.position(friend.getLatLng());
 
-        markerOptions.title("That's " + friend.getName());
+        markerOptions.title(mMapView.getResources().getString(R.string.friend_current_location_msg_start) + friend.getName());
         int rnd = new Random().nextInt(MARKER_COLOURS.length);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(MARKER_COLOURS[rnd]));
         mGoogleMap.addMarker(markerOptions);
     }
 
+    /**
+     * Check the location permission of the users' app and get permission from the user
+     *
+     * @return void
+     */
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(mMapView.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -205,14 +234,14 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(mMapView.getContext())
-                        .setTitle("CurrentLocation Permission Needed")
-                        .setMessage("This app needs the CurrentLocation permission, please accept to use location functionality")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.location_permission_title)
+                        .setMessage(R.string.location_permission_description)
+                        .setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //Prompt the user once explanation has been shown
                                 ActivityCompat.requestPermissions(mMapView.getActivity(),
-                                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                         MY_PERMISSIONS_REQUEST_LOCATION );
                             }
                         })
@@ -229,6 +258,12 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
         }
     }
 
+    /**
+     * When the user grants permission to the app for location get the location of the user. If the
+     * user does not grant permission, then make a Toast to tell the user
+     *
+     * @return void
+     */
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -238,7 +273,7 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // permission was granted, yay! Do the
-                    // location-related task you need to do.
+                    // location-related task
                     if (ContextCompat.checkSelfPermission(mMapView.getContext(),
                             android.Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
@@ -251,18 +286,11 @@ public class MapPresenter implements OnMapReadyCallback, Observer {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-//                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mMapView.getContext(), R.string.location_permission_denied, Toast.LENGTH_LONG).show();
                 }
                 return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-
-    }
 }

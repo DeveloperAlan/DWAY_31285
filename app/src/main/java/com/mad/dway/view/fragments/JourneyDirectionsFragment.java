@@ -17,10 +17,11 @@ import com.mad.dway.model.directions.DirectionsRepository;
 import com.mad.dway.model.places.Place;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
+ * Journey Directions Fragment for the Journey directions functionality and view. The fragments
+ * contains the directions list, which is scrollable to get the directions for the user
+ *
+ * @author  12934713
+ * @version 1.0
  */
 public class JourneyDirectionsFragment extends Fragment {
 

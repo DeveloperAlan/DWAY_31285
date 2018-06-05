@@ -26,6 +26,11 @@ public class PlacesEndPoint {
 
     }
 
+    /**
+     * Get or create the instance of the places end point
+     *
+     * @return the instance of the placesEndPoint
+     */
     public static PlacesEndPoint getInstance() {
         if (mPlacesEndPoint == null) {
             mPlacesEndPoint = new PlacesEndPoint();
@@ -34,6 +39,13 @@ public class PlacesEndPoint {
         return mPlacesEndPoint;
     }
 
+    /**
+     * Get the search result of the place that the user has requested and give them back the result
+     * Synchronous request
+     *
+     * @param searchQuery
+     * @return the result of the places
+     */
     public static PlacesSearchResult[] searchPlace(String searchQuery) {
         TextSearchRequest request = PlacesApi.textSearchQuery(mContext, searchQuery);
         Log.d("search place working", "working?");

@@ -7,5 +7,17 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="startFriendsRepo">Getting Instance of Friends Repository</string>
+    <string name="start_friends_repo">Getting Instance of Friends Repository</string>
+    <string name="sign_in_error_text">Log in/Sign in failed. Please try again later.</string>
+    <string name="on_list_fragment_interaction_listener_error_text">must implement OnListFragmentInteractionListener</string>
+    <string name="user_repo_signed_in">User Repo Logged In</string>
+    <string name="logged_in">Logged in</string>
+    <string name="not_logged_in">Not Logged in</string>
+    <string name="current_user_location_msg">That\'s you!</string>
+    <string name="friend_current_location_msg_start">That\'s</string>
+    <string name="location_permission_title">Current Location Permission Needed</string>
+    <string name="no_results_found">No results found</string>
+    <string name="location_permission_description">This app needs the CurrentLocation permission, please accept to use location functionality</string>
+    <string name="okButton">OK</string>
+    <string name="location_permission_denied">DWAY needs location to work</string>
 </resources>

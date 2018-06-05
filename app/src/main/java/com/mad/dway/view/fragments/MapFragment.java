@@ -16,7 +16,10 @@ import com.mad.dway.R;
 import com.mad.dway.presenter.MapPresenter;
 
 /**
- * Created by ang on 7/5/18.
+ * Map fragment which contains the map presenter to show the Google map implementation
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -32,8 +35,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     /**
-     * Returns a new instance of this fragment for the given section
-     * number.
+     * Returns a new instance of this fragment
+     *
+     * @return  MapFragment the google map itself
      */
     public static MapFragment newInstance() {
         MapFragment fragment = new MapFragment();
@@ -49,6 +53,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         this.mMapPresenter.onMapsFragmentCreate();
     }
 
+    /**
+     * Create the view as well as adding the map fragment to the view from the Google Maps SDK
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return  view    the maps view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

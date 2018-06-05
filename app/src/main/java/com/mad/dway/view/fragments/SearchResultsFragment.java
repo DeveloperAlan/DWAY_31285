@@ -18,10 +18,11 @@ import java.util.ArrayList;
 
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
+ * Recycler View Adapter for the journey directions. Adds journey steps to the recycler view so that
+ * the user can view the steps needed to get to the destination.
+ *
+ * @author  12934713
+ * @version 1.0
  */
 public class SearchResultsFragment extends Fragment {
 
@@ -87,7 +88,7 @@ public class SearchResultsFragment extends Fragment {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+                    + getString(R.string.on_list_fragment_interaction_listener_error_text));
         }
     }
 
@@ -97,18 +98,8 @@ public class SearchResultsFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(Place place);
     }
 }

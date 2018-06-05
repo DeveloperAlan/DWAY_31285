@@ -35,8 +35,13 @@ public class FriendsRepository extends Observable {
 
     }
 
+    /**
+     * get instance of the friends repository
+     *
+     * @return the instance of friends repository
+     */
     public static FriendsRepository getInstance() {
-        Log.d("Friends Repository", String.valueOf(R.string.startFriendsRepo));
+        Log.d("Friends Repository", String.valueOf(R.string.start_friends_repo));
         if (sInstance == null) {
             sInstance = new FriendsRepository();
 
@@ -45,8 +50,6 @@ public class FriendsRepository extends Observable {
             mFirebaseAuth = FirebaseAuth.getInstance();
             mFirebaseUser = mFirebaseAuth.getCurrentUser();
             mFriendsList = new Friends();
-
-            addFriendsLocationListener();
 
             if (mFirebaseUser == null) {
                 mUserId = null;
@@ -57,24 +60,21 @@ public class FriendsRepository extends Observable {
         return sInstance;
     }
 
-    private static void addFriendsLocationListener() {
-        mUsersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
+    /**
+     * get the friends list of the user
+     *
+     * @return the friends list of the user
+     */
     public static ArrayList<Friend> getFriendsList() {
         return mFriendsList.getFriendsList();
     }
 
+    /**
+     * Update the friends location in the friends list
+     *
+     * @param friend
+     * @return null
+     */
     public static void updateFriendInFriendsList(Friend friend) {
         mFriendsList.updateFriendInFriendsList(friend);
     }

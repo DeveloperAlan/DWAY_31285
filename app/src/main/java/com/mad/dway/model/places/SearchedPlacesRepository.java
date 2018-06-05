@@ -22,6 +22,11 @@ public class SearchedPlacesRepository {
     private SearchedPlacesRepository() {
     }
 
+    /**
+     * Get the instance of the SearchedPlacesRepository
+     *
+     * @return the instance
+     */
     public static SearchedPlacesRepository getInstance() {
         if (mInstance == null) {
             mInstance = new SearchedPlacesRepository();
@@ -31,6 +36,13 @@ public class SearchedPlacesRepository {
         return mInstance;
     }
 
+    /**
+     * Search the place and pass into the placesEndPoint Api and then get the reuslt and save
+     * into a list
+     *
+     * @param searchQuery   the places to be searched
+     * @return  the list of places
+     */
     public static ArrayList<Place> searchPlace(String searchQuery) {
         PlacesSearchResult[] results = mPlacesEndPoint.searchPlace(searchQuery);
         Log.d("something", String.valueOf(results));

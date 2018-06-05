@@ -12,7 +12,11 @@ import com.mad.dway.R;
 import com.mad.dway.presenter.JourneySearchPresenter;
 
 /**
- * Created by ang on 3/6/18.
+ * The journey search fragment which contains the search bar and button which can then search
+ * locations for the user
+ *
+ * @author  12934713
+ * @version 1.0
  */
 
 public class JourneySearchFragment extends Fragment {
@@ -43,6 +47,11 @@ public class JourneySearchFragment extends Fragment {
         return mView;
     }
 
+    /**
+     * Create a new instance of the journey fragment for the main activity on create
+     *
+     * @return View  the journey search view
+     */
     public View getView() {
         return mView;
     }
